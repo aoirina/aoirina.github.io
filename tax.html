@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator - My Personal Website</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <style>
+        .tax-calculator {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .tax-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-top">
+        <div class="w3-bar w3-card w3-animate-top w3-white" id="navbar">
+            <a href="main.html" class="w3-bar-item w3-button w3-wide">HOME</a>
+            <div class="w3-right w3-hide-small">
+                <a href="main.html#about" class="w3-bar-item w3-button">ABOUT</a>
+                <a href="main.html#education" class="w3-bar-item w3-button">EDUCATION</a>
+                <a href="main.html#interests" class="w3-bar-item w3-button">INTERESTS</a>
+                <a href="tools.html" class="w3-bar-item w3-button w3-active">TOOLS</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="w3-container w3-center w3-padding-64 w3-blue">
+        <h1 class="w3-margin">Income Tax Calculator</h1>
+        <p class="w3-large">Estimate your annual income tax</p>
+        <a href="tools.html" class="w3-button w3-light-grey w3-padding"><i class="fa fa-arrow-left w3-margin-right"></i>Back to Tools</a>
+    </header>
+
+    <div class="w3-container w3-padding-64">
+        <div class="tax-calculator w3-card w3-padding-32">
+            <h2 class="w3-center">Income Tax Calculator</h2>
+            <p class="w3-center">Calculate your estimated income tax based on your annual income</p>
+            
+            <div class="w3-section">
+                <label>Annual Income ($)</label>
+                <input id="annual-income" class="w3-input w3-border" type="number" placeholder="Enter your annual income">
+            </div>
+            
+            <div class="w3-center w3-section">
+                <button id="calculate-tax" class="w3-button w3-blue w3-padding">Calculate Tax</button>
+                <button id="reset-tax" class="w3-button w3-red w3-padding">Reset</button>
+            </div>
+            
+            <div id="tax-result" class="tax-result w3-light-grey">
+                <h3 class="w3-center">Your Tax Estimate</h3>
+                <div class="w3-row w3-section">
+                    <div class="w3-col m6 w3-center">
+                        <p>Annual Income:</p>
+                        <p>Total Tax:</p>
+                    </div>
+                    <div class="w3-col m6 w3-center">
+                        <p><span id="result-income" class="w3-large"></span></p>
+                        <p><span id="result-tax" class="w3-large"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="w3-center w3-black w3-padding-64">
+        <a href="#" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+        <br><br>
+        <p>&copy; 2025 My Personal Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateButton = document.getElementById('calculate-tax');
+            const resetButton = document.getElementById('reset-tax');
+            const incomeInput = document.getElementById('annual-income');
+            // Filing status select removed
+            const taxResult = document.getElementById('tax-result');
+            const resultIncome = document.getElementById('result-income');
+            const resultTax = document.getElementById('result-tax');
+            
+            // We'll calculate tax directly using the provided formula
+            
+            calculateButton.addEventListener('click', function() {
+                const income = parseFloat(incomeInput.value);
+                
+                if (isNaN(income) || income < 0) {
+                    alert('Please enter a valid income amount.');
+                    return;
+                }
+                
+                // Calculate tax using the provided tax bracket code
+                let tax = 0;
+                
+                if (income <= 5000) {
+                    tax = 0;
+                } else if (income <= 20000) {
+                    tax = (income - 5000) * 0.01;
+                } else if (income <= 35000) {
+                    tax = (15000 * 0.01) + (income - 20000) * 0.03;
+                } else if (income <= 50000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (income - 35000) * 0.08;
+                } else if (income <= 70000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (income - 50000) * 0.13;
+                } else if (income <= 100000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (income - 70000) * 0.21;
+                } else if (income <= 250000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (income - 100000) * 0.24;
+                } else if (income <= 400000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (150000 * 0.24) + (income - 250000) * 0.245;
+                } else if (income <= 600000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (150000 * 0.24) + (150000 * 0.245) + (income - 400000) * 0.25;
+                } else if (income <= 1000000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (150000 * 0.24) + (150000 * 0.245) + (200000 * 0.25) + (income - 600000) * 0.26;
+                } else if (income <= 2000000) {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (150000 * 0.24) + (150000 * 0.245) + (200000 * 0.25) + (400000 * 0.26) + (income - 1000000) * 0.28;
+                } else {
+                    tax = (15000 * 0.01) + (15000 * 0.03) + (15000 * 0.08) + (20000 * 0.13) + (30000 * 0.21) + (150000 * 0.24) + (150000 * 0.245) + (200000 * 0.25) + (400000 * 0.26) + (1000000 * 0.28) + (income - 2000000) * 0.30;
+                }
+                
+                // Display results
+                resultIncome.textContent = 'RM' + income.toFixed(2);
+                resultTax.textContent = 'RM' + tax.toFixed(2);
+                
+                // Show the result
+                taxResult.style.display = 'block';
+            });
+            
+            resetButton.addEventListener('click', function() {
+                incomeInput.value = '';
+                taxResult.style.display = 'none';
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
